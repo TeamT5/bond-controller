@@ -44,6 +44,7 @@ typecheck = ["mypy"]
 [[package]]
 name = "black"
 version = "24.4.2"
+
 description = "The uncompromising code formatter."
 category = "main"
 optional = false
