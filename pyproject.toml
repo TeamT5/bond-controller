@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bond-controller-action"
-version = "1.0.1"
+version = "2.0.0"
 description = ""
 authors = ["jeremy <jeremy@teamt5.org>"]
 readme = "README.md"
