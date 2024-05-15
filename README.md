@@ -27,6 +27,12 @@ This is a project that can control the bond-agent.
       * https://github.com/25077667/standalone-python
 * This project will enforce administrator privileges in a Windows environment.
 
+## Important Notes
+* Python version should be at least 3.8.0
+  * Recommended to use standalone-python
+    * https://github.com/25077667/standalone-python
+* The bond-agent must be running before using this project
+
 ## 如何安裝
 
 * Clone 專案
