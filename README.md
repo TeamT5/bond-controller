@@ -28,10 +28,16 @@ This is a project that can control the bond-agent.
 * This project will enforce administrator privileges in a Windows environment.
 
 ## Important Notes
-* Python version should be at least 3.8.0
+* Python 3.8.0 or higher is required.
   * Recommended to use standalone-python
-    * https://github.com/25077667/standalone-python
-* The bond-agent must be running before using this project
+    * Windows
+      * x64
+        * https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-amd64.zip
+      * x86
+        * https://www.python.org/ftp/python/3.11.9/python-3.11.9-embed-win32.zip
+    * Linux
+      * https://github.com/25077667/standalone-python
+* This project will enforce administrator privileges in a Windows environment.
 
 ## 如何安裝
 
