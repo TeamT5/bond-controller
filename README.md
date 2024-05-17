@@ -70,3 +70,11 @@ For detailed usage, refer to example.py
 ```shell
 python example.py
 ```
+
+# License / 授權條款
+
+任何從連結下載的代碼，遵循原始專案的授權條款。
+其他部分依據 [GPL-3 授權條款](/LICENSE)。
+
+Any codes were downloaded from links, follow the license of the original project.
+Others are under [GPL-3 License](/LICENSE).
