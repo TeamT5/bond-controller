@@ -3,6 +3,7 @@ import os
 import base64
 
 from controller.action_config import setting
+from controller.common.zip.zip import ZipTool
 from controller.common.about_folder import Folder
 from controller.action.common.response import ResponseMethod
 from controller.common.logger.info_logger_handle import Logger
@@ -26,6 +27,37 @@ class Endpoint_Action:
         url = f"http://{dest}:{port}/bond_info/"
 
         return ResponseMethod.get_text(url)
+
+    @staticmethod
+    def send_folder_to_agent(
+        dest: str,
+        folder_path: str,
+        target: str,
+        port: int = setting.AGENT_PORT,
+        exclude_files: tuple = (),
+        exclude_dirs: tuple = (),
+    ) -> str:
+        """
+        Send folder to agent.
+
+        :param dest: [str] target host address.
+        :param filepath: [str] filepath to send.
+        :param target: [str] target filepath.
+        :param port: [int] target host port (default: 8086).
+        :param exclude_files: [tuple] files to exclude.
+        :param exclude_dirs: [tuple] directories to exclude.
+        :return: [str] text
+        """
+        Logger.info(f"Sending folder to agent at {dest}:{port}")
+
+        zip_folder_base64_data = ZipTool.zip_dir(
+            folder_path, exclude_files, exclude_dirs
+        )
+
+        data = {"target": target, "folder_content": zip_folder_base64_data}
+        url = f"http://{dest}:{port}/upload_folder/"
+
+        return ResponseMethod.post_text(url, json=data)
 
     @staticmethod
     def send_file_to_agent(
@@ -77,6 +109,68 @@ class Endpoint_Action:
         data = {"to_be_executed": target, "timeout": timeout, "extra_args": extra_args}
 
         return ResponseMethod.post_text(url, json=data)
+
+    @staticmethod
+    def execute_python_folder(
+        dest: str,
+        target: str,
+        timeout: int = setting.EXECUTE_TIMEOUT,
+        port: int = setting.AGENT_PORT,
+        extra_args: tuple = (),
+    ) -> str:
+        """
+        Execute python folder at endpoint.
+
+        :param dest: [str] target host address.
+        :param target: [str] target folderpath.
+        :param timeout: [int] timeout (default: 0).
+        :param port: [int] target host port (default: 8086).
+        :param extra_args: [str] extra args.
+        :return: [tuple] text
+        """
+        Logger.info(
+            f"Executing python folder at {dest}:{port} on {target} with timeout {timeout}"
+        )
+        url = f"http://{dest}:{port}/execute_python_folder/"
+        data = {"to_be_executed": target, "timeout": timeout, "extra_args": extra_args}
+
+        return ResponseMethod.post_text(url, json=data)
+
+    @staticmethod
+    def send_python_folder_to_execute(
+        dest: str,
+        folder_path: str,
+        target: str,
+        port: int = setting.AGENT_PORT,
+        exclude_files: tuple = (),
+        exclude_dirs: tuple = (),
+        timeout: int = setting.EXECUTE_TIMEOUT,
+        extra_args: list = [],
+    ) -> dict:
+        """
+        Send python folder to endpoint to execute.
+
+        :param dest: [str] target host address.
+        :param folder_path: [str] folder path.
+        :param target: [str] target folder.
+        :param port: [int] target host port (default: 8086).
+        :param exclude_files: [tuple] files to exclude.
+        :param exclude_dirs: [tuple] directories to exclude.
+        :param timeout: [int] timeout (default: 0).
+        :param extra_args: [list] extra args.
+        :return: [dict] result
+        """
+
+        result = {}
+
+        result["send_folder_to_agent"] = Endpoint_Action.send_folder_to_agent(
+            dest, folder_path, target, port, exclude_files, exclude_dirs
+        )
+        result["execute_file"] = Endpoint_Action.execute_python_folder(
+            dest, target, timeout, port, extra_args
+        )
+
+        return result
 
     @staticmethod
     def send_file_to_execute(
