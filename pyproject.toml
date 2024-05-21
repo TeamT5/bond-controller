@@ -7,7 +7,7 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-requests = "^2.32.0"
+requests = "^2.32.1"
 paramiko = "^3.4.0"
 pytest = "^7.2.1"
 pillow = "^10.3.0"
